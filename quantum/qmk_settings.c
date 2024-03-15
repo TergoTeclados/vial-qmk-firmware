@@ -181,7 +181,13 @@ void qmk_settings_reset(void) {
 
     QS.combo_term = COMBO_TERM;
     QS.tapping_term = TAPPING_TERM;
-    QS.tapping = 0;
+    QS.tapping = 0b00000011; //ToDo Tergo fix to define based on json or other
+
+    // QS.tapping = (PERMISSIVE_HOLD << 0) |
+    //              (!HOLD_ON_OTHER_KEY_PRESS << 1) | // It is the oposite of the deprecated Ignore Mod Tap Interrupt
+    //              (0 << 2) | // Variable is deprecated
+    //              (RETRO_TAPPING << 3);
+
     QS.tap_code_delay = TAP_CODE_DELAY;
     QS.tap_hold_caps_delay = TAP_HOLD_CAPS_DELAY;
     QS.tapping_toggle = TAPPING_TOGGLE;

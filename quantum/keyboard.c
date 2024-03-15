@@ -692,7 +692,7 @@ void keyboard_task(void) {
     oled_task();
 #    if OLED_TIMEOUT > 0
     // Wake up oled if user is using those fabulous keys or spinning those encoders!
-    if (activity_has_occurred) oled_on();
+    //if (activity_has_occurred) oled_on(); //ToDo Tergo fix
 #    endif
 #endif
 
