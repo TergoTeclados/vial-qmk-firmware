@@ -1,36 +1,39 @@
-# Quantum Mechanical Keyboard Firmware
+# Vial QMK Firmware - Tergo Teclados
 
-[![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
-[![Discord](https://img.shields.io/discord/440868230475677696.svg)](https://discord.gg/Uq7gcHh)
-[![Docs Status](https://img.shields.io/badge/docs-ready-orange.svg)](https://docs.qmk.fm)
-[![GitHub contributors](https://img.shields.io/github/contributors/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/pulse/monthly)
-[![GitHub forks](https://img.shields.io/github/forks/qmk/qmk_firmware.svg?style=social&label=Fork)](https://github.com/qmk/qmk_firmware/)
+## Visão geral
 
-This is a keyboard firmware based on the [tmk\_keyboard firmware](https://github.com/tmk/tmk_keyboard) with some useful features for Atmel AVR and ARM controllers, and more specifically, the [OLKB product line](https://olkb.com), the [ErgoDox EZ](https://ergodox-ez.com) keyboard, and the Clueboard product line.
+Esta é a pasta do código-fonte do _firmware_ dos teclados da Tergo Teclados.
 
-## Documentation
+Caso queira baixar a versão mais recente do _firmware_, visite os releases [clicando aqui](https://github.com/TergoTeclados/vial-qmk-firmware/releases).
 
-* [See the official documentation on docs.qmk.fm](https://docs.qmk.fm)
+Caso tenha chegado aqui por acidente, visite a [documentação oficial do Tergo Sofle](https://github.com/TergoTeclados/Tergo-Sofle-Documentation).
 
-The docs are powered by [Docsify](https://docsify.js.org/) and hosted on [GitHub](/docs/). They are also viewable offline; see [Previewing the Documentation](https://docs.qmk.fm/#/contributing?id=previewing-the-documentation) for more details.
+## Sobre este repositório
 
-You can request changes by making a fork and opening a [pull request](https://github.com/qmk/qmk_firmware/pulls), or by clicking the "Edit this page" link at the bottom of any page.
+Este repositório é um fork do [Vial QMK Firmware](https://github.com/vial-kb/vial-qmk), que é um fork do [QMK Firmware](https://github.com/qmk/qmk_firmware)
 
-## Supported Keyboards
+Este fork adiciona os teclados da Tergo Teclados como submódulos na pasta `keyboards/` e possui adaptações para funcionalidades presentes nesses teclados.
 
-* [Planck](/keyboards/planck/)
-* [Preonic](/keyboards/preonic/)
-* [ErgoDox EZ](/keyboards/ergodox_ez/)
-* [Clueboard](/keyboards/clueboard/)
-* [Cluepad](/keyboards/clueboard/17/)
-* [Atreus](/keyboards/atreus/)
+A maioria das customizações são feitas dentro do submódulo que é o teclado, como é o caso do Tergo Sofle, que se encontra na pasta [keyboards/tergo_sofle](keyboards/tergo_sofle/). Entretando, algumas modificações também são feitas no código-fonte do firmware (este repositório).
 
-The project also includes community support for [lots of other keyboards](/keyboards/).
+## Como modificar código-fonte
 
-## Maintainers
+Visite a [documentação de como modificar o código-fonte](https://github.com/TergoTeclados/Tergo-Sofle-Documentation/blob/main/guias/COMO_MODIFICAR_CODIGO_FONTE.md).
 
-QMK is developed and maintained by Jack Humbert of OLKB with contributions from the community, and of course, [Hasu](https://github.com/tmk). The OLKB product firmwares are maintained by [Jack Humbert](https://github.com/jackhumbert), the Ergodox EZ by [ZSA Technology Labs](https://github.com/zsa), the Clueboard by [Zach White](https://github.com/skullydazed), and the Atreus by [Phil Hagelberg](https://github.com/technomancy).
+## Contribua e monitore issues
 
-## Official Website
+Com foco em transparência e em crescer uma comunidade, abrimos o código e as issues ao público!
 
-[qmk.fm](https://qmk.fm) is the official website of QMK, where you can find links to this page, the documentation, and the keyboards supported by QMK.
+Monitore funcionalidades que pretendemos adicionar ao Tergo Sofle na aba de [issues](https://github.com/TergoTeclados/vial-qmk-firmware/issues).
+
+### Contribua!
+
+Se você desenvolve software e gostaria de se aventurar com funcionalidades, nossa comunidade ficaria muito grata caso possa contribuir em resolver issues ou compartilhar o que criou!
+
+## Mantenedores
+
+A Tergo Teclados possui uma equipe super dedicada, porém pequena.Mas que busca dar o máximo possível de suporte.
+
+### Busque por conteúdos do QMK
+
+[Este trecho da documentação](https://github.com/TergoTeclados/Tergo-Sofle-Documentation/blob/main/guias/COMO_MODIFICAR_CODIGO_FONTE.md#se-aventure-na-documenta%C3%A7%C3%A3o-e-nos-f%C3%B3runs) te indica diversas fontes de como modificar e trabalhar com o código para que você se aventure.
