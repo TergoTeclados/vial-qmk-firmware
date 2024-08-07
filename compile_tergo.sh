@@ -1,6 +1,9 @@
 #!/bin/bash
 
-echo "Este arquivo é um utilitário destinado aos programadores da Tergo. Para compilar seu programa, use o manual como referência."
+
+echo -e "\033[31mEste arquivo está obsoleto. Para compilar seu programa, use o manual como referência.\033[0m"
+echo "https://github.com/TergoTeclados/Tergo-Sofle-Documentation/blob/main/guias/COMO_MODIFICAR_CODIGO_FONTE.md#compilar-firmware-do-seu-teclado"
+exit 0
 
 # Verifica se a pasta .build_tergo existe, caso contrário a cria
 mkdir -p .build_tergo
