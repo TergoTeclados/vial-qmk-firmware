@@ -25,7 +25,7 @@
 #ifdef OLED_ENABLE
 
 const uint16_t TIME_BETWEEN_FRAMES_ANIMATION = OLED_UPDATE_INTERVAL; // Deve ser 50ms para teclados split por default
-const uint16_t TIME_BETWEEN_LOOPING_ANIMATION = 8000;
+const uint16_t TIME_BETWEEN_LOOPING_ANIMATION = 7000;
 
 uint8_t frame_count = 1;
 uint16_t time_between_frames = 0;
