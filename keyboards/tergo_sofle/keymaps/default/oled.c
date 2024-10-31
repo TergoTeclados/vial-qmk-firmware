@@ -96,7 +96,7 @@ void print_percentage_str(uint8_t value, uint8_t max_value) {
 void render_adjust(uint8_t col, uint8_t line) {
     oled_set_cursor(col, line);
 
-    oled_write_ln_P(PSTR("v1.03"), false);
+    oled_write_ln_P(PSTR("v1.04"), false);
 
     line += 2;
     oled_set_cursor(col, line);
