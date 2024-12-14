@@ -28,11 +28,9 @@
 #endif
 
 enum custom_keycodes {
-    KC_TG_CUSTOM = CUSTOM_KC_START_VALUE,
-    KC_TG_OLED,
-    KC_OLED_BRIGHTNESS_INC,
-    KC_OLED_BRIGHTNESS_DEC,
-    KC_TEXT_TYPE
+    KC_TG_OLED = CUSTOM_KC_START_VALUE,
+    KC_TEXT_TYPE,
+    KC_TG_CAPS_WORD
 };
 
 #ifdef ENCODER_MAP_ENABLE
@@ -170,23 +168,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #endif
 
   switch (keycode) {
-    case KC_TG_CUSTOM: // toggles custom layer
-      if (record->event.pressed) {
-        uint8_t target;
-
-        if (get_highest_layer(default_layer_state) == _BASIC) {
-            target = _ADEPT;
+    case KC_TG_CAPS_WORD:
+        if (record->event.pressed) {
+            caps_word_toggle();
         }
-        else {
-            target = _BASIC;
-        }
-        default_layer_set(1 << target);
-
-        #ifdef PERSIST_DEFAULT_LAYER_TOGGLE
-        set_single_persistent_default_layer(target);
-        #endif
-      }
-      return false;
+        return false;
 
     #ifdef OLED_ENABLE
     case KC_TEXT_TYPE:
@@ -206,30 +192,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
       }
       return false;
-
-    // Only working for the main side of the keyboard
-    case KC_OLED_BRIGHTNESS_INC:
-        temp_oled_brightness = oled_get_brightness();
-
-        if ((OLED_MAX_BRIGHTNESS - temp_oled_brightness) >= 16) {
-            temp_oled_brightness += 16; // Adiciona 16 se isso não resultar em um valor maior que 255
-        } else {
-            temp_oled_brightness = OLED_MAX_BRIGHTNESS; // Atribui o valor máximo de 255 se a adição de 16 causaria overflow
-        }
-        oled_set_brightness(temp_oled_brightness);
-        return false;
-
-    // Only working for the main side of the keyboard
-    case KC_OLED_BRIGHTNESS_DEC:
-        temp_oled_brightness = oled_get_brightness();
-
-        if (temp_oled_brightness >= 16) {
-            temp_oled_brightness -= 16; // Diminui 16 se isso não resultar em um valor menor que 0
-        } else {
-            temp_oled_brightness = 0; // Atribui o valor mínimo de 0 se a subtração de 16 causaria underflow
-        }
-        oled_set_brightness(temp_oled_brightness);
-        return false;
     #endif
 
     default:

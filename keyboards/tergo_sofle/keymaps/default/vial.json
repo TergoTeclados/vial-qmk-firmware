@@ -4,17 +4,17 @@
     "productId": "0x0287",
     "lighting": "vialrgb",
     "customKeycodes": [
-        {"name": "Tg Custom",
-         "title": "Toggles custom layer",
-         "shortName": "KC_TG_CUSTOM"
-        },
         {"name": "Tg OLED",
          "title": "Toggles OLED on and off",
-         "shortName": "KC_TG_OLED"
+         "shortName": "OledToggle"
         },
         {"name": "Tg OLED Texts",
          "title": "Toggles OLED texts",
-         "shortName": "KC_TEXT_TYPE"
+         "shortName": "OledUseText"
+        },
+        {"name": "CapsWord",
+        "title": "Toggles Caps Word",
+        "shortName": "CapsWord"
         }
     ],
     "matrix": { "rows": 10, "cols": 6 },

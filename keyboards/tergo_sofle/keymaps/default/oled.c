@@ -236,7 +236,7 @@ static void print_status_narrow(void) {
             oled_write_P(PSTR("ScrLk"), led_usb_state.scroll_lock);
             break;
         default:
-            oled_write_P(PSTR("CpsLk"), led_usb_state.caps_lock);
+            oled_write_P(PSTR("CpsLk"), led_usb_state.caps_lock || is_caps_word_on());
             break;
     }
 }
