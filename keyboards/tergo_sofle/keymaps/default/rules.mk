@@ -18,6 +18,8 @@ CONSOLE_ENABLE = no
 
 LTO_ENABLE = no # Can be changed to "yes" if having problems with no remaining space in controller
 
+ENCODER_ENABLE = yes
+ENCODER_MAP_ENABLE = yes
 
 SRC += ./oled.c
 SRC += ./art/moon_tergo.c
