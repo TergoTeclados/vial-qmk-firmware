@@ -21,6 +21,8 @@
 #include "layers.h"
 #include "oled.h"
 
+#include "keymap_brazilian_abnt2.h"
+
 #ifdef VIAL_ENABLE // Required by Vial documentations to show custom keycodes
     #define CUSTOM_KC_START_VALUE QK_KB_0
 #else
@@ -51,6 +53,9 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 // Keymaps for each layer. The visualization should be easier in Vial interface.
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
+#ifndef USE_LAYOUT_ABNT2
+
+// Layout padrão Internacional
 [_BASIC] = LAYOUT(
   KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,
   KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_BSPC,
@@ -58,6 +63,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_LCTL,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, MO(_MEDIA),       MO(_ADJUST), KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,  KC_ENT,
             MO(_NUMPAD), KC_LGUI, KC_LALT, KC_SPC, MO(_SYMB_AND_NAV),  KC_ENT, KC_BSPC, KC_DEL, KC_RGUI, KC_RCTL
 ),
+
+#else
+
+// Layout padrão "ABNT2"
+[_BASIC] = LAYOUT(
+  KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSPC,
+  KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     BR_ACUT,
+  KC_LSFT,  KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,    BR_CCED,  BR_TILD,
+  KC_LCTL,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, MO(_MEDIA),       MO(_ADJUST), KC_N,    KC_M,    KC_COMM, KC_DOT,  BR_SCLN,  BR_SLSH,
+            MO(_NUMPAD), KC_LGUI, KC_LALT, KC_SPC, MO(_SYMB_AND_NAV),  KC_ENT, KC_BSPC, KC_DEL, KC_RGUI, KC_RCTL
+),
+
+#endif
 
 [_ADEPT] = LAYOUT(
   _______,   _______,   _______,    _______,    _______,    _______,                     _______,    _______,    _______,    _______,    _______,  _______,
@@ -67,6 +85,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                  _______ , _______, _______, LT(_MOUSE, KC_SPC), LT(_SYMB_AND_NAV, KC_TAB),        _______, _______, _______, _______, _______
 ),
 
+
+#ifndef USE_LAYOUT_ABNT2
+
+// Essa é uma camada extra, idêntica à camada base
+// Layout padrão Internacional
 [_CUSTOM] = LAYOUT(
   KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,
   KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_BSPC,
@@ -75,22 +98,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             MO(_NUMPAD), KC_LGUI, KC_LALT, KC_SPC, MO(_SYMB_AND_NAV),  KC_ENT, KC_BSPC, KC_DEL, KC_RGUI, KC_RCTL
 ),
 
+#else
+
+// Essa é uma camada extra, idêntica à camada base
+// Layout padrão "ABNT2"
+[_CUSTOM] = LAYOUT(
+  KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSPC,
+  KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     BR_ACUT,
+  KC_LSFT,  KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,    BR_CCED,  BR_TILD,
+  KC_LCTL,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, MO(_MEDIA),       MO(_ADJUST), KC_N,    KC_M,    KC_COMM, KC_DOT,  BR_SCLN,  BR_SLSH,
+            MO(_NUMPAD), KC_LGUI, KC_LALT, KC_SPC, MO(_SYMB_AND_NAV),  KC_ENT, KC_BSPC, KC_DEL, KC_RGUI, KC_RCTL
+),
+
+#endif
+
+#ifndef USE_LAYOUT_ABNT2
+
+// Layout padrão Internacional
 [_SYMB_AND_NAV] = LAYOUT(
-  _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                          KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
-  _______,    KC_GRV,  KC_CIRCUMFLEX,  KC_PLUS,    KC_LCBR,    KC_RCBR,            KC_PGUP, KC_HOME,   KC_UP, KC_END, KC_INS,  KC_F12,
-  _______,  KC_TILD,   KC_EQUAL, KC_MINS,  KC_LPRN, KC_RPRN,                     KC_PGDN,  KC_LEFT, KC_DOWN, KC_RGHT,  KC_PSCR, XXXXXXX,
-  _______,  KC_BSLS, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC, _______,       _______, KC_CAPS, LCTL(KC_LEFT), KC_ESC, LCTL(KC_RGHT), KC_BRK, XXXXXXX,
+  _______,  KC_F1,   KC_F2,         KC_F3,   KC_F4,   KC_F5,                          KC_F6,   KC_F7,         KC_F8,   KC_F9,         KC_F10,  KC_F11,
+  _______,  KC_GRV,  KC_CIRCUMFLEX, KC_PLUS, KC_LCBR, KC_RCBR,                        KC_PGUP, KC_HOME,       KC_UP,   KC_END,        KC_INS,  KC_F12,
+  _______,  KC_TILD, KC_EQUAL,      KC_MINS, KC_LPRN, KC_RPRN,                        KC_PGDN, KC_LEFT,       KC_DOWN, KC_RGHT,       KC_PSCR, XXXXXXX,
+  _______,  KC_BSLS, KC_PIPE,       KC_UNDS, KC_LBRC, KC_RBRC, _______,      _______, KC_CAPS, LCTL(KC_LEFT), KC_ESC,  LCTL(KC_RGHT), KC_BRK,  XXXXXXX,
                        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
 ),
 
-// You can try it if you want a separated layer for navigation keys
-// [_NAV] = LAYOUT(
-//   _______, _______ , _______ , _______ , LALT(KC_F4), _______,                           _______,  _______  , KC_F8,  _______ ,  _______ , _______,
-//   _______,  KC_INS,  KC_PSCR,   KC_APP,  XXXXXXX, XXXXXXX,                        KC_PGUP, KC_HOME,   KC_UP, KC_END, XXXXXXX, _______,
-//   _______, KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT, XXXXXXX,                       KC_PGDN,  KC_LEFT, KC_DOWN, KC_RGHT,  XXXXXXX, _______,
-//   _______, LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), XXXXXXX,  _______,       _______, _______,  LCTL(KC_LEFT), KC_ESC, LCTL(KC_RGHT), XXXXXXX, _______,
-//                          _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
-// ),
+#else
+
+// Layout padrão "ABNT2"
+[_SYMB_AND_NAV] = LAYOUT(
+  _______,  KC_F1,   KC_F2,      KC_F3,   KC_F4,   KC_F5,                          KC_F6,   KC_F7,         KC_F8,   KC_F9,         KC_F10,  KC_F11,
+  _______,  KC_GRV,  BR_CIRC,    BR_PLUS, BR_LCBR, BR_RCBR,                        KC_PGUP, KC_HOME,       KC_UP,   KC_END,        KC_INS,  KC_F12,
+  _______,  KC_TILD, KC_EQUAL,   KC_MINS, BR_LPRN, BR_RPRN,                        KC_PGDN, KC_LEFT,       KC_DOWN, KC_RGHT,       KC_PSCR, XXXXXXX,
+  _______,  BR_BSLS, BR_PIPE,    BR_UNDS, BR_LBRC, BR_RBRC, _______,      _______, KC_CAPS, LCTL(KC_LEFT), KC_ESC,  LCTL(KC_RGHT), KC_BRK,  XXXXXXX,
+                       _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
+),
+
+#endif
 
 [_ADJUST] = LAYOUT(
   _______, _______ , _______ , _______ , _______ , _______,                           _______,  _______  , _______,  _______ ,  _______ , _______,
