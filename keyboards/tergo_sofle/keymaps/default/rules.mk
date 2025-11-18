@@ -15,6 +15,7 @@ CAPS_WORD_ENABLE = yes
 MOUSEKEY_ENABLE = yes
 EXTRAKEY_ENABLE = yes
 CONSOLE_ENABLE = no
+NKRO_ENABLE = yes
 
 LTO_ENABLE = no # Can be changed to "yes" if having problems with no remaining space in controller
 
