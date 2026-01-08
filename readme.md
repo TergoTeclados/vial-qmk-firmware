@@ -16,6 +16,24 @@ Este fork adiciona os teclados da Tergo Teclados como submódulos na pasta `keyb
 
 A maioria das customizações são feitas dentro do submódulo que é o teclado, como é o caso do Tergo Sofle, que se encontra na pasta [keyboards/tergo_sofle](keyboards/tergo_sofle/). Entretando, algumas modificações também são feitas no código-fonte do firmware (este repositório).
 
+## Configuração inicial
+
+### Otimizações do Git (Recomendado)
+
+Este repositório contém muitos submódulos e arquivos, o que pode tornar as operações Git lentas. Para melhorar a performance, execute um dos scripts de otimização após clonar o repositório:
+
+**Windows (PowerShell):**
+```powershell
+.\setup-git-optimizations.ps1
+```
+
+**Linux/Mac:**
+```bash
+./setup-git-optimizations.sh
+```
+
+Estes scripts aplicam configurações locais do Git que aceleram operações como `git status`, `git add`, etc.
+
 ## Como modificar código-fonte
 
 Visite a [documentação de como modificar o código-fonte](https://github.com/TergoTeclados/Tergo-Sofle-Documentation/blob/main/guias/COMO_MODIFICAR_CODIGO_FONTE.md).
