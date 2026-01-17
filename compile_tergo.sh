@@ -2,19 +2,11 @@
 
 # Script para gerar firmware no padrão internacional e no padrão ABNT2
 
-echo -e "\033[31mAtenção: Este script é pensado para uso pela Tergo Teclados. Para compilar seu programa da maneira usual, use a documentação oficial como referência.\033[0m"
-
 # Verifica se a pasta .build_tergo existe, caso contrário a cria
 mkdir -p .build_tergo
 
-if [ -z "$1" ]; then
-    echo "Erro: versão para nomeação correta dos arquivos não foi passada."
-    echo "Uso: $0 <version>"
-    exit 1
-fi
-
-# Versao do firmware
-version="$1"
+# Versao do firmware (usa "Custom" como padrão se não for passado parâmetro)
+version="${1:-Custom}"
 
 # Caminhos absolutos dos arquivos que serão compilados
 origem="$(pwd)/.build/tergo_sofle_rev1_default_rp2040_ce.uf2"
