@@ -44,11 +44,17 @@
 #define SPLIT_LED_STATE_ENABLE
 #define SPLIT_OLED_ENABLE
 #define OLED_TIMEOUT 60000 //ms
-#define OLED_BRIGHTNESS 0
+// Era 0 originalmente. Na família SSD1315 a corrente dos segmentos é proporcional
+// ao contraste sem offset, ou seja, contraste 0 apaga o painel por completo.
+// No SSD1306 original o mesmo 0 ainda rende uma imagem fraca, mas visível.
+#define OLED_BRIGHTNESS 1
 
 #define RGB_MATRIX_TIMEOUT 90000 //ms
 #define RGB_DISABLE_WHEN_USB_SUSPENDED
-#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 127 // ATENÇÃO: não aumentar, sujeito a perda de garantia. Valores maiores não são seguros para a placa controladora.
+// ATENÇÃO: não aumentar.
+// Sujeito a perda de garantia. Pode causar danos na placa controladora.
+// Valores maiores excedem o limite da placa controladora.
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 110 // Não aumentar. Pode diminuir.
 #define RGB_MATRIX_DEFAULT_SPD 128
 #define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR
 
