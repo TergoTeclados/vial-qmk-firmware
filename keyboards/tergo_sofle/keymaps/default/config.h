@@ -55,8 +55,10 @@
 // Sujeito a perda de garantia. Pode causar danos na placa controladora.
 // Valores maiores excedem o limite da placa controladora.
 #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 110 // Não aumentar. Pode diminuir.
-#define RGB_MATRIX_DEFAULT_SPD 128
-#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR
+// Cycle Up Down. No OLED esse modo aparece como 14.
+// 31 e o menor valor que o OLED mostra como 12%: (velocidade * 100) / 255.
+#define RGB_MATRIX_DEFAULT_SPD 31
+#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_CYCLE_UP_DOWN
 
 // Mouse key speed and acceleration.
 #undef MOUSEKEY_DELAY
