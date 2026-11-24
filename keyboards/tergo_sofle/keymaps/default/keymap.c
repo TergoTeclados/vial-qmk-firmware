@@ -180,17 +180,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 static bool layer_rgb_enabled = true;
 
-// Matiz no circulo de 0 a 255. Saturacao 0 e branco.
-// Camadas 0 a 7 seguem a paleta testada na comunidade. 8 a 15 cobrem as camadas extras do Vial.
+// Matiz no circulo de 0 a 255, sempre com saturacao 255 (evita branco e o pico de corrente dos 3 canais).
+// L0-L2 sao camadas base (mostram o efeito do Vial por padrao), mas mantem cores validas caso usadas como temporarias.
 static const HSV layer_rgb_palette[] = {
-    {0, 0, 0},       // L0 branco
-    {24, 255, 0},    // L1 laranja
-    {128, 255, 0},   // L2 ciano
+    {182, 255, 0},   // L0 indigo (camada base; nao usada enquanto for a base)
+    {43, 255, 0},    // L1 amarelo (camada base; so aparece se ativada como temporaria)
+    {128, 255, 0},   // L2 ciano (camada base; so aparece se ativada como temporaria)
     {170, 255, 0},   // L3 azul
     {0, 255, 0},     // L4 vermelho
     {195, 255, 0},   // L5 roxo
     {85, 255, 0},    // L6 verde
-    {43, 255, 0},    // L7 amarelo
+    {24, 255, 0},    // L7 laranja (mouse)
     {106, 255, 0},   // L8 menta
     {149, 255, 0},   // L9 ceu
     {213, 255, 0},   // L10 magenta
