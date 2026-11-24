@@ -15,6 +15,10 @@
         {"name": "CapsWord",
         "title": "Toggles Caps Word",
         "shortName": "CapsWord"
+        },
+        {"name": "Tg Layer RGB",
+         "title": "Toggles underglow color by layer",
+         "shortName": "LayerRGB"
         }
     ],
     "matrix": { "rows": 10, "cols": 6 },

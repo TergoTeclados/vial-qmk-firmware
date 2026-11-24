@@ -20,6 +20,7 @@
 
 #include "layers.h"
 #include "oled.h"
+#include "transactions.h"
 
 #include "keymap_brazilian_abnt2.h"
 
@@ -32,7 +33,8 @@
 enum custom_keycodes {
     KC_TG_OLED = CUSTOM_KC_START_VALUE,
     KC_TEXT_TYPE,
-    KC_TG_CAPS_WORD
+    KC_TG_CAPS_WORD,
+    KC_TG_LAYER_RGB
 };
 
 #ifdef ENCODER_MAP_ENABLE
@@ -138,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_ADJUST] = LAYOUT(
   _______, _______ , _______ , _______ , _______ , _______,                           _______,  _______  , _______,  _______ ,  _______ , _______,
-  RGB_SPI,  RGB_VAI,  RGB_SAI,   RGB_HUI,  RGB_MOD, RGB_TOG,                        XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, _______,
+  RGB_SPI,  RGB_VAI,  RGB_SAI,   RGB_HUI,  RGB_MOD, RGB_TOG,                        KC_TG_LAYER_RGB, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, _______,
   RGB_SPD, RGB_VAD,  RGB_SAD,  RGB_HUD,  RGB_RMOD, KC_TG_OLED,                       XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, _______,
   _______, XXXXXXX, DF(_BASIC), DF(_ADEPT), DF(_CUSTOM), KC_TEXT_TYPE,  _______,       _______,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   NK_TOGG, _______,
                          _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
@@ -169,6 +171,124 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 )
 };
 
+#ifdef RGB_MATRIX_ENABLE
+// Cor solida por camada temporaria, por cima do efeito escolhido no Vial.
+// Na camada base o efeito continua. O brilho segue o valor do usuario, com o teto do config.h.
+#define LAYER_RGB_MAGIC 0xA6
+#define LAYER_RGB_MAGIC_SHIFT 8
+#define LAYER_RGB_SYNC_MS 100
+
+static bool layer_rgb_enabled = true;
+
+// Matiz no circulo de 0 a 255. Saturacao 0 e branco.
+// Camadas 0 a 7 seguem a paleta testada na comunidade. 8 a 15 cobrem as camadas extras do Vial.
+static const HSV layer_rgb_palette[] = {
+    {0, 0, 0},       // L0 branco
+    {24, 255, 0},    // L1 laranja
+    {128, 255, 0},   // L2 ciano
+    {170, 255, 0},   // L3 azul
+    {0, 255, 0},     // L4 vermelho
+    {195, 255, 0},   // L5 roxo
+    {85, 255, 0},    // L6 verde
+    {43, 255, 0},    // L7 amarelo
+    {106, 255, 0},   // L8 menta
+    {149, 255, 0},   // L9 ceu
+    {213, 255, 0},   // L10 magenta
+    {235, 255, 0},   // L11 rosa
+    {64, 255, 0},    // L12 lima
+    {11, 255, 0},    // L13 vermelho-alaranjado
+    {75, 255, 0},    // L14 amarelo-esverdeado
+    {224, 255, 0},   // L15 fucsia
+};
+
+_Static_assert(ARRAY_SIZE(layer_rgb_palette) == DYNAMIC_KEYMAP_LAYER_COUNT, "A paleta RGB precisa cobrir cada camada do Vial");
+
+static uint32_t layer_rgb_pack(bool enabled) {
+    return ((uint32_t)LAYER_RGB_MAGIC << LAYER_RGB_MAGIC_SHIFT) | (enabled ? 1u : 0u);
+}
+
+static void layer_rgb_slave_handler(uint8_t in_buflen, const void *in_data, uint8_t out_buflen, void *out_data) {
+    (void)out_buflen;
+    (void)out_data;
+
+    if (in_buflen < 1 || in_data == NULL) {
+        return;
+    }
+
+    const uint8_t *payload = in_data;
+    layer_rgb_enabled = payload[0] != 0;
+}
+
+static void layer_rgb_send_state(void) {
+    uint8_t payload = layer_rgb_enabled ? 1 : 0;
+    transaction_rpc_send(SYNC_LAYER_RGB, sizeof(payload), &payload);
+}
+
+static void layer_rgb_task(void) {
+    if (!is_keyboard_master()) {
+        return;
+    }
+
+    static uint32_t last_sync = 0;
+    if (timer_elapsed32(last_sync) < LAYER_RGB_SYNC_MS) {
+        return;
+    }
+
+    last_sync = timer_read32();
+    layer_rgb_send_state();
+}
+
+void eeconfig_init_user(void) {
+    layer_rgb_enabled = true;
+    eeconfig_update_user(layer_rgb_pack(true));
+}
+
+void keyboard_post_init_user(void) {
+    layer_rgb_enabled = true;
+    transaction_register_rpc(SYNC_LAYER_RGB, layer_rgb_slave_handler);
+
+    if (!is_keyboard_master()) {
+        return;
+    }
+
+    uint32_t raw = eeconfig_read_user();
+    uint8_t magic = (raw >> LAYER_RGB_MAGIC_SHIFT) & 0xFF;
+    if (magic != LAYER_RGB_MAGIC) {
+        eeconfig_update_user(layer_rgb_pack(true));
+        return;
+    }
+
+    layer_rgb_enabled = (raw & 1u) != 0;
+}
+
+bool rgb_matrix_indicators_user(void) {
+    if (!layer_rgb_enabled) {
+        return true;
+    }
+
+    // A camada em uso inclui a base. layer_state sozinho fica em 0 quando a base nao e a 0.
+    uint8_t layer = get_highest_layer(layer_state | default_layer_state);
+    uint8_t base = get_highest_layer(default_layer_state);
+    if (layer == base || layer >= ARRAY_SIZE(layer_rgb_palette)) {
+        return true;
+    }
+
+    uint8_t value = rgb_matrix_get_val();
+    if (value > RGB_MATRIX_MAXIMUM_BRIGHTNESS) {
+        value = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
+    }
+
+    HSV hsv = layer_rgb_palette[layer];
+    hsv.v = value;
+    RGB rgb = hsv_to_rgb(hsv);
+
+    // Todos os indices: na placa so os underglow estao ligados, e a ordem fisica
+    // nao segue so a flag UNDERGLOW.
+    rgb_matrix_set_color_all(rgb.r, rgb.g, rgb.b);
+    return false;
+}
+#endif
+
 // Custom code to turn oled on and off
 #ifdef OLED_ENABLE
 bool     is_oled_enabled = true, is_oled_locked = false;
@@ -180,13 +300,19 @@ bool print_layer_number_instead_of_text = false;
 void oled_timer_reset(void) {
     oled_timer = timer_read32();
 }
+#endif
 
 void housekeeping_task_user(void) {
+#ifdef OLED_ENABLE
     if (is_keyboard_master()) {
         is_oled_enabled = is_oled_locked ? false : !(timer_elapsed32(oled_timer) > OLED_TIMEOUT);
     }
-}
 #endif
+
+#ifdef RGB_MATRIX_ENABLE
+    layer_rgb_task();
+#endif
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -223,6 +349,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     #endif
+
+#ifdef RGB_MATRIX_ENABLE
+    case KC_TG_LAYER_RGB:
+        if (record->event.pressed) {
+            layer_rgb_enabled = !layer_rgb_enabled;
+            eeconfig_update_user(layer_rgb_pack(layer_rgb_enabled));
+            layer_rgb_send_state();
+        }
+        return false;
+#endif
 
     default:
       return true; // Process all other keycodes normally

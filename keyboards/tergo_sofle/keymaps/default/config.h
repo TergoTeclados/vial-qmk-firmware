@@ -93,6 +93,8 @@ for more options. */
     #define RGB_MATRIX_LED_COUNT RGBLED_NUM
     #define RGB_MATRIX_SPLIT RGBLED_SPLIT
     #define SPLIT_TRANSPORT_MIRROR
+    // Sincroniza o interruptor de cor por camada com a outra metade.
+    #define SPLIT_TRANSACTION_IDS_USER SYNC_LAYER_RGB
 
     // RGB effects
     #define ENABLE_RGB_MATRIX_SOLID_COLOR     // Static single hue, no speed support
